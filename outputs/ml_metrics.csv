@@ -1,0 +1,5 @@
+Model,Accuracy,Precision,Recall,F1,TP,FP,TN,FN
+Baseline (lop da so),0.5083,0.5083,1.0,0.674,550,532,0,0
+Logistic Regression,0.4982,0.6842,0.0236,0.0457,13,6,526,537
+Decision Tree,0.4834,0.4628,0.1018,0.1669,56,65,467,494
+Random Forest,0.4935,0.5038,0.24,0.3251,132,130,402,418

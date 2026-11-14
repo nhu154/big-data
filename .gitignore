@@ -1,0 +1,13 @@
+venv/
+data/
+datalake/
+dbdata/
+__pycache__/
+*.pyc
+.DS_Store
+reports/notify_state.json
+reports/notify.log
+reports/btc_daily_live.csv
+*.plist
+.env
+kaggle.json

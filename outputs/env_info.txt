@@ -1,0 +1,16 @@
+== macOS
+ProductName:		macOS
+ProductVersion:		26.3
+BuildVersion:		25D125
+Apple M4
+RAM bytes: 17179869184
+== versions
+Python 3.14.8
+pyspark 4.3.0 pandas 3.1.0 statsmodels 0.15.0
+openjdk version "25.0.4.1" 2026-08-18 LTS
+Docker version 29.9.2, build a82e528
+apache/superset:latest
+apache/kafka:latest
+== size
+278M	datalake/btc_raw
+279M	datalake/btc_clean

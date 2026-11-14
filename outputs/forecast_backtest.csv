@@ -1,0 +1,9 @@
+Horizon_thang,Mo_hinh,MAE_log,Sai_so_pct_dien_hinh,So_moc
+12,Naive (giu gia cuoi),0.5037,65.5,18
+12,Drift 48 thang,0.4845,62.3,18
+12,Xu huong tuyen tinh (toan bo),0.9789,166.1,18
+12,Holt damped,0.5203,68.3,18
+36,Naive (giu gia cuoi),0.8398,131.6,14
+36,Drift 48 thang,0.6923,99.8,14
+36,Xu huong tuyen tinh (toan bo),1.2941,264.8,14
+36,Holt damped,0.8111,125.0,14

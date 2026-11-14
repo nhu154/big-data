@@ -1,0 +1,22 @@
+{
+  "rows_raw": 7805067,
+  "null_by_column": {
+    "open": 0,
+    "high": 0,
+    "low": 0,
+    "close": 0,
+    "volume": 0
+  },
+  "duplicate_timestamps": 0,
+  "invalid_ohlc": 0,
+  "negative_volume": 0,
+  "time_gaps": 0,
+  "missing_minutes_in_gaps": 0,
+  "volume_q1": 0.02218915,
+  "volume_q3": 2.70341638,
+  "volume_iqr_upper": 10.74709807,
+  "volume_outliers": 749877,
+  "zero_volume_minutes": 1312419,
+  "rows_clean": 7805067,
+  "rows_removed": 0
+}

@@ -1,0 +1,94 @@
+==================== EXPLAIN EXTENDED ====================
+== Parsed Logical Plan ==
+'Sort ['date ASC NULLS FIRST], true
++- Aggregate [date#2], [date#2, max(close#10) AS Max_Close#15, sum(volume#11) AS Volume#16]
+   +- Filter (volume#11 > cast(0 as double))
+      +- Filter (year#13 = 2025)
+         +- Relation [open_time_ms#0L,datetime#1,date#2,month#3,hour#4,weekday#5,year_month#6,open#7,high#8,low#9,close#10,volume#11,source#12,year#13] parquet
+
+== Analyzed Logical Plan ==
+date: date, Max_Close: double, Volume: double
+Sort [date#2 ASC NULLS FIRST], true
++- Aggregate [date#2], [date#2, max(close#10) AS Max_Close#15, sum(volume#11) AS Volume#16]
+   +- Filter (volume#11 > cast(0 as double))
+      +- Filter (year#13 = 2025)
+         +- Relation [open_time_ms#0L,datetime#1,date#2,month#3,hour#4,weekday#5,year_month#6,open#7,high#8,low#9,close#10,volume#11,source#12,year#13] parquet
+
+== Optimized Logical Plan ==
+Sort [date#2 ASC NULLS FIRST], true
++- Aggregate [date#2], [date#2, max(close#10) AS Max_Close#15, sum(volume#11) AS Volume#16]
+   +- Project [date#2, close#10, volume#11]
+      +- Filter ((isnotnull(year#13) AND isnotnull(volume#11)) AND ((year#13 = 2025) AND (volume#11 > 0.0)))
+         +- Relation [open_time_ms#0L,datetime#1,date#2,month#3,hour#4,weekday#5,year_month#6,open#7,high#8,low#9,close#10,volume#11,source#12,year#13] parquet
+
+== Physical Plan ==
+AdaptiveSparkPlan isFinalPlan=false
++- Sort [date#2 ASC NULLS FIRST], true, 0
+   +- Exchange rangepartitioning(date#2 ASC NULLS FIRST, 200), ENSURE_REQUIREMENTS, [plan_id=22]
+      +- HashAggregate(keys=[date#2], functions=[max(close#10), sum(volume#11)], output=[date#2, Max_Close#15, Volume#16])
+         +- Exchange hashpartitioning(date#2, 200), ENSURE_REQUIREMENTS, [plan_id=19]
+            +- HashAggregate(keys=[date#2], functions=[partial_max(close#10), partial_sum(volume#11)], output=[date#2, max#35, sum#36])
+               +- Project [date#2, close#10, volume#11]
+                  +- Filter (isnotnull(volume#11) AND (volume#11 > 0.0))
+                     +- FileScan parquet [date#2,close#10,volume#11,year#13] Batched: true, DataFilters: [isnotnull(volume#11), (volume#11 > 0.0)], Format: Parquet, Location: InMemoryFileIndex(1 paths)[file:/Users/nhu1542005/bigdata_pipeline/datalake/btc_clean], PartitionFilters: [isnotnull(year#13), (year#13 = 2025)], PushedFilters: [IsNotNull(volume), GreaterThan(volume,0.0)], ReadSchema: struct<date:date,close:double,volume:double>
+
+==================== EXPLAIN FORMATTED ====================
+== Physical Plan ==
+AdaptiveSparkPlan (9)
++- Sort (8)
+   +- Exchange (7)
+      +- HashAggregate (6)
+         +- Exchange (5)
+            +- HashAggregate (4)
+               +- Project (3)
+                  +- Filter (2)
+                     +- Scan parquet  (1)
+
+
+(1) Scan parquet 
+Output [4]: [date#2, close#10, volume#11, year#13]
+Batched: true
+Location: InMemoryFileIndex [file:/Users/nhu1542005/bigdata_pipeline/datalake/btc_clean]
+PartitionFilters: [isnotnull(year#13), (year#13 = 2025)]
+PushedFilters: [IsNotNull(volume), GreaterThan(volume,0.0)]
+ReadSchema: struct<date:date,close:double,volume:double>
+
+(2) Filter
+Input [4]: [date#2, close#10, volume#11, year#13]
+Condition : (isnotnull(volume#11) AND (volume#11 > 0.0))
+
+(3) Project
+Output [3]: [date#2, close#10, volume#11]
+Input [4]: [date#2, close#10, volume#11, year#13]
+
+(4) HashAggregate
+Input [3]: [date#2, close#10, volume#11]
+Keys [1]: [date#2]
+Functions [2]: [partial_max(close#10), partial_sum(volume#11)]
+Aggregate Attributes [2]: [max#33, sum#34]
+Results [3]: [date#2, max#35, sum#36]
+
+(5) Exchange
+Input [3]: [date#2, max#35, sum#36]
+Arguments: hashpartitioning(date#2, 200), ENSURE_REQUIREMENTS, [plan_id=19]
+
+(6) HashAggregate
+Input [3]: [date#2, max#35, sum#36]
+Keys [1]: [date#2]
+Functions [2]: [max(close#10), sum(volume#11)]
+Aggregate Attributes [2]: [max(close#10)#31, sum(volume#11)#32]
+Results [3]: [date#2, max(close#10)#31 AS Max_Close#15, sum(volume#11)#32 AS Volume#16]
+
+(7) Exchange
+Input [3]: [date#2, Max_Close#15, Volume#16]
+Arguments: rangepartitioning(date#2 ASC NULLS FIRST, 200), ENSURE_REQUIREMENTS, [plan_id=22]
+
+(8) Sort
+Input [3]: [date#2, Max_Close#15, Volume#16]
+Arguments: [date#2 ASC NULLS FIRST], true, 0
+
+(9) AdaptiveSparkPlan
+Output [3]: [date#2, Max_Close#15, Volume#16]
+Arguments: isFinalPlan=false
+
+

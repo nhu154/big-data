@@ -1,0 +1,12 @@
+pyspark>=4.0
+pandas
+numpy
+pyarrow
+confluent-kafka
+statsmodels
+matplotlib
+fastapi
+uvicorn
+kagglehub
+truststore
+scipy

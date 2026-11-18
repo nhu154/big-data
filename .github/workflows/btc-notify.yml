@@ -1,4 +1,4 @@
- name: BTC Nhom 9 - ban tin hang ngay
+name: BTC Nhom 9 - ban tin hang ngay
 on:
   schedule:
     - cron: "5 1 * * *"
